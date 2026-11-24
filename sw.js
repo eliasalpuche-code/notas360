@@ -1,9 +1,9 @@
 // Guarda la app en el dispositivo para que abra sin internet.
 // Cambia VERSION cada vez que publiques cambios para que los celulares se actualicen.
-const VERSION = 'mf360-v1.2.0';
+const VERSION = 'mf360-v1.3.0';
 const ARCHIVOS = [
   './', './index.html', './styles.css', './manifest.webmanifest',
-  './js/app.js', './js/db.js', './js/ledger.js', './js/ui.js', './js/seguridad.js',
+  './js/app.js', './js/db.js', './js/ledger.js', './js/ui.js', './js/seguridad.js', './js/sync.js',
   './manifest-notas.webmanifest', './manifest-calc.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
   './icons/notas-192.png', './icons/notas-512.png', './icons/notas-180.png',

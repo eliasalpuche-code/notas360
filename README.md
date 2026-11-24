@@ -1,6 +1,48 @@
-# Mis Finanzas 360 — Fases 1, 2 y 3
+# Mis Finanzas 360 — Fases 1 a 4
 
 App de finanzas personales (PWA). Funciona sin internet y guarda los datos en el dispositivo (IndexedDB).
+
+## Fase 4: respaldo cifrado en tu Google Drive (Más → Respaldo en Google Drive)
+Cada cambio se sube solo, **cifrado en tu dispositivo** con una clave que solo tú conoces. En Drive queda un
+archivo ilegible; ni Google ni el script pueden leerlo. Se guarda además una copia por día (últimos 30 días).
+
+### Paso 1. Crear tu script (una sola vez, en la laptop)
+1. Entra a **https://script.google.com** con tu Gmail → **Proyecto nuevo**.
+2. Arriba, cambia el nombre "Proyecto sin título" por algo discreto, por ejemplo `Notas`.
+3. Borra todo el texto del editor y pega el contenido de **`apps-script/Code.gs`**. Presiona **Guardar** (icono de disco).
+4. En la barra de arriba, junto a "Depurar", elige la función **`configurar`** y presiona **Ejecutar**.
+5. Google pedirá permiso: **Revisar permisos** → elige tu cuenta. Si aparece "Google no verificó esta app":
+   **Configuración avanzada → Ir a Notas (no seguro) → Permitir**. Es tu propio script; solo usa tu Drive.
+6. Abajo, en el **Registro de ejecución**, aparece **tu código de enlace** (por ejemplo `ABCD-EFGH-JKLM`). Anótalo.
+7. Arriba a la derecha: **Implementar → Nueva implementación**. En el engrane elige **Aplicación web**.
+   - Ejecutar como: **Yo**
+   - Quién tiene acceso: **Cualquier usuario**
+   - **Implementar** y copia la **URL de la aplicación web** (termina en `/exec`).
+
+"Cualquier usuario" es necesario para que la app pueda conectarse; aun así nadie puede usarlo sin tu código
+de enlace, y lo que guarda está cifrado.
+
+### Paso 2. Conectar tu primer dispositivo
+En la app: **Más → Respaldo en Google Drive** → pega la URL y el código → **Conectar** → crea tu **clave de
+cifrado** (mínimo 10 caracteres; por ejemplo cuatro palabras). **Si olvidas esta clave nadie puede abrir tus
+datos de Drive**: anótala en un lugar seguro.
+
+### Paso 3. Conectar tus otros dispositivos
+Mismo menú → misma URL y código → escribe la **misma clave**. Lo que tenga ese dispositivo se combina con lo de
+Drive sin perder nada. Desde ahí, todos ven lo mismo.
+
+### Si te roban o pierdes un dispositivo
+- Instala la app en otro, conéctala con tu URL, código y clave: recuperas todo hasta el último cambio.
+- En **Respaldo en Google Drive → Dispositivos conectados**, presiona **Desconectar** en el robado. Deja de
+  recibir datos y, si alguien abre la app ahí con internet, borra lo que tenga guardado.
+- Si crees que alguien vio tu código de enlace, en el script ejecuta la función `nuevoCodigoDeEnlace`.
+
+### Copias diarias
+En la misma pantalla aparecen las copias de los últimos días; **Restaurar** regresa todo (en todos tus
+dispositivos) a como estaba ese día.
+
+### En tu Drive
+Se crea la carpeta **Notas - respaldo** con `actual.dat` y la carpeta `historial`. No la borres ni la muevas.
 
 ## Novedades de la fase 3 (Más → Seguridad)
 - **PIN de acceso** de 4 a 6 dígitos. Tras 5 intentos fallidos hay que esperar (30 s, luego más).
@@ -13,8 +55,7 @@ App de finanzas personales (PWA). Funciona sin internet y guarda los datos en el
   Tarjetas, Gastos, Movimientos, Cuentas). Puedes usar un PIN de secciones distinto.
 - **Olvidé mi PIN:** no se puede recuperar; la única salida es borrar los datos del dispositivo (escribiendo
   BORRAR) y restaurar un respaldo. Por eso conviene descargar respaldos seguido.
-- El bloqueo protege la app al abrirla. El cifrado completo de los datos llega en la fase 4 con la
-  sincronización a Google Drive.
+- El bloqueo protege la app al abrirla; lo que sube a Drive va cifrado (fase 4).
 
 ## Novedades de la fase 2
 - **Tarjetas de crédito:** día de corte, días para pagar, límite y disponible. Calcula el pago para no generar
@@ -63,16 +104,15 @@ Abre http://localhost:8080 en Chrome o Edge. (Abrir `index.html` con doble clic 
 - **Windows (Edge o Chrome):** icono de instalar en la barra de direcciones.
 
 ## Al publicar cambios
-Sube la versión de `VERSION` en `sw.js` (ahora `mf360-v1.2.0`; por ejemplo a `mf360-v1.2.1`) para que los dispositivos descarguen la nueva versión.
+Sube la versión de `VERSION` en `sw.js` (ahora `mf360-v1.3.0`; por ejemplo a `mf360-v1.3.1`) para que los dispositivos descarguen la nueva versión.
 
 ## Si ya tenías una fase anterior instalada
 Sube estos archivos encima de los anteriores en tu repositorio. Tus datos se conservan: la base de datos se
 actualiza sola. Cierra y vuelve a abrir la app (a veces dos veces) para que tome la nueva versión.
 
-## Importante mientras no haya sincronización
-Los datos viven solo en el dispositivo donde los capturas. Hasta la fase 4 (Google Drive), usa
-**Más → Respaldo → Descargar respaldo completo** de vez en cuando y guarda el archivo en tu Drive.
-Ese mismo archivo sirve para pasar tus datos a otro dispositivo (*Restaurar desde un respaldo*).
+## Respaldo en archivo
+Además de Drive, en **Más → Respaldo en archivo** puedes descargar todo en un archivo (no va cifrado) o exportar
+tus movimientos para Excel.
 
 ## Archivos
 - `index.html`, `styles.css`, `manifest.webmanifest`, `sw.js`, `icons/`
@@ -80,8 +120,10 @@ Ese mismo archivo sirve para pasar tus datos a otro dispositivo (*Restaurar desd
 - `js/ledger.js` — reglas: tipos de movimiento, saldos, préstamos y pagos
 - `js/ui.js` — formato de dinero y fechas, iconos, hojas y avisos
 - `js/seguridad.js` — PIN, huella, calculadora camuflada y segundo candado
+- `js/sync.js` — cifrado y sincronización con Google Drive
+- `apps-script/Code.gs` — el script que pegas en script.google.com
 - `manifest-notas.webmanifest`, `manifest-calc.webmanifest` — nombres discretos
 - `js/app.js` — pantallas y navegación
 
 ## Siguientes fases
-4. Sincronización cifrada con Google Drive (Apps Script) y recordatorios en Google Calendar.
+- Avisos en Google Calendar (para recibir los recordatorios con la app cerrada).
