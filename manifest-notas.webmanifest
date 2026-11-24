@@ -1,0 +1,30 @@
+{
+  "name": "Notas",
+  "short_name": "Notas",
+  "description": "Notas",
+  "lang": "es-MX",
+  "start_url": "./#/inicio",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF8E6",
+  "theme_color": "#F2C46B",
+  "icons": [
+    {
+      "src": "icons/notas-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/notas-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/notas-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "./"
+}

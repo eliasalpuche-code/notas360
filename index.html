@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#13223F" id="meta-tema">
+  <meta name="description" content="Control de finanzas personales" id="meta-desc">
+  <title>Mis Finanzas 360</title>
+  <link rel="manifest" href="manifest.webmanifest" id="ln-manifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" id="ln-icon">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" id="ln-apple">
+  <meta name="apple-mobile-web-app-title" content="Mis Finanzas" id="meta-apple-tit">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <script>
+    // Nombre e icono discretos: se aplican antes de que el navegador lea el manifiesto.
+    (function () {
+      try {
+        var n = localStorage.getItem('mf360-nombre');
+        var M = { notas: ['Notas', 'notas', '#F2C46B'], calculadora: ['Calculadora', 'calc', '#2B2F36'] };
+        var c = M[n]; if (!c) return;
+        document.title = c[0];
+        document.getElementById('ln-manifest').href = 'manifest-' + c[1] + '.webmanifest';
+        document.getElementById('ln-icon').href = 'icons/' + c[1] + '-192.png';
+        document.getElementById('ln-apple').href = 'icons/' + c[1] + '-180.png';
+        document.getElementById('meta-apple-tit').content = c[0];
+        document.getElementById('meta-tema').content = c[2];
+        document.getElementById('meta-desc').content = c[0];
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <div id="nav"></div>
+    <main id="main" class="main"><div class="vacio">Cargando…</div></main>
+  </div>
+  <noscript><p style="padding:20px">Esta app necesita JavaScript activado.</p></noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
